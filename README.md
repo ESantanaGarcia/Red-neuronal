@@ -26,16 +26,6 @@ requirements.txt        # Dependencias necesarias
 
 ---
 
-## Requisitos
-
-### Dependencias
-
-Asegúrate de tener Python 3.8+ instalado. Las dependencias necesarias están listadas en el archivo `requirements.txt`. Puedes instalarlas ejecutando:
-
-```bash
-pip install -r requirements.txt
-```
-
 ### Estructura de Datos
 
 El directorio `archive` debe contener las siguientes carpetas con imágenes organizadas por clase:
