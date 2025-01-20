@@ -1,4 +1,4 @@
-# Clasificación de Imágenes de Infraestructura con Redes Convolucionales
+# Clasificación de imágenes de infraestructura con redes convolucionales
 
 Este proyecto implementa una red neuronal convolucional (CNN) para clasificar imágenes de estructuras de infraestructura (decks, pavements, y walls) en dos categorías: cracked (con fisuras) y non-cracked (sin fisuras). El objetivo es identificar el estado de diferentes superficies para aplicaciones de mantenimiento y evaluación estructural.
 
