@@ -105,29 +105,3 @@ El script genera:
    - Precisión y F1-Score
 
 2. Matriz de confusión para interpretar los resultados del conjunto de prueba.
-
----
-
-## Contribución
-
-Si deseas contribuir a este proyecto, puedes:
-
-1. Hacer un fork del repositorio.
-2. Crear una rama para tus cambios:
-   ```bash
-   git checkout -b feature/nueva-caracteristica
-   ```
-3. Realizar un pull request con una descripción detallada de tus cambios.
-
----
-
-## Licencia
-
-Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para más detalles.
-
----
-
-## Autor
-
-Este proyecto fue desarrollado como parte de un sistema de clasificación automática para la detección de fisuras en infraestructura. Si tienes dudas, no dudes en contactarme.
-
