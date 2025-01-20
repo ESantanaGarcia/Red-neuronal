@@ -1,6 +1,11 @@
-# Clasificación de imágenes de infraestructura con redes convolucionales
+# Clasificación de imágenes de infraestructura con redes neuronales
 
-Este proyecto implementa una red neuronal convolucional (CNN) para clasificar imágenes de estructuras de infraestructura (decks, pavements, y walls) en dos categorías: cracked (con fisuras) y non-cracked (sin fisuras). El objetivo es identificar el estado de diferentes superficies para aplicaciones de mantenimiento y evaluación estructural.
+Este repositorio contiene implementaciones de dos modelos para la clasificación de imágenes de infraestructura (decks, pavements y walls) en dos categorías: cracked (con fisuras) y non-cracked (sin fisuras). Los modelos incluidos son:
+
+1. **Red Neuronal Convolucional Personalizada (ConvNet)**.
+2. **Modelo Preentrenado ResNet18 para Transfer Learning**.
+
+El objetivo principal es identificar el estado de diferentes superficies para aplicaciones de mantenimiento y evaluación estructural.
 
 ---
 
@@ -11,9 +16,10 @@ El proyecto tiene la siguiente estructura:
 ```
 archive/                 # Directorio con las carpetas de datos (imágenes organizadas por clase)
 scripts/
-  train.py              # Script principal para entrenar y validar el modelo
-  test.py               # Script para evaluar el modelo en el conjunto de prueba
-models/                 # Carpeta para guardar los pesos del modelo
+  train_convnet.py      # Script para entrenar el modelo ConvNet personalizado
+  train_resnet18.py     # Script para entrenar el modelo ResNet18 preentrenado
+  test.py               # Script para evaluar ambos modelos en el conjunto de prueba
+models/                 # Carpeta para guardar los pesos de los modelos
 README.md               # Documentación del proyecto
 requirements.txt        # Dependencias necesarias
 ```
@@ -53,28 +59,44 @@ Cada carpeta contiene las imágenes correspondientes a su clase.
 
 ## Entrenamiento
 
-El entrenamiento del modelo puede realizarse ejecutando el script `train.py`. Este script incluye la configuración de early stopping y guarda los mejores pesos del modelo basado en la pérdida de validación.
+### ConvNet Personalizado
 
-### Comando para entrenar:
+Este modelo implementa una arquitectura convolucional personalizada con las siguientes características:
+- Dos capas convolucionales con batch normalization y max pooling.
+- Una capa fully connected con dropout para evitar sobreajuste.
+
+#### Comando para entrenar:
 
 ```bash
-python scripts/train.py
+python scripts/train_convnet.py
 ```
 
-Los pesos del mejor modelo se guardan en `models/best_model.pth`.
+Los pesos del mejor modelo se guardan en `models/best_model_convnet.pth`.
+
+### ResNet18 Preentrenado
+
+Se utiliza ResNet18 preentrenado en ImageNet y se ajusta la capa fully connected para clasificar las 6 clases del dataset.
+
+#### Comando para entrenar:
+
+```bash
+python scripts/train_resnet18.py
+```
+
+Los pesos del mejor modelo se guardan en `models/best_model_resnet18.pth`.
 
 ---
 
 ## Evaluación
 
-El script `test.py` permite evaluar el modelo entrenado en el conjunto de prueba. Calcula las siguientes métricas:
+El script `test.py` permite evaluar ambos modelos en el conjunto de prueba. Calcula las siguientes métricas:
 
-- Pérdida de prueba
-- Precisión
-- F1-Score
-- Matriz de confusión
+- Pérdida de prueba.
+- Precisión.
+- F1-Score.
+- Matriz de confusión.
 
-### Comando para evaluar:
+#### Comando para evaluar:
 
 ```bash
 python scripts/test.py
@@ -82,26 +104,32 @@ python scripts/test.py
 
 ---
 
-## Configuración del Modelo
+## Configuración de los Modelos
 
-El modelo es una red convolucional definida en PyTorch. Los principales hiperparámetros incluyen:
+### ConvNet Personalizado
 
-- **Dropout**: 0.2 (configurable)
-- **Tasa de aprendizaje**: 0.001
-- **Peso de regularización**: 0.0001
-- **Batch size**: 64
-- **Número de épocas**: 10
+El modelo es una red convolucional definida en PyTorch con los siguientes hiperparámetros:
 
-Puedes ajustar los hiperparámetros modificando el diccionario `params` dentro de los scripts.
+- **Dropout**: 0.2 (configurable).
+- **Tasa de aprendizaje**: 0.001.
+- **Peso de regularización**: 0.0001.
+- **Batch size**: 64.
+- **Número de épocas**: 10.
+
+Puedes ajustar los hiperparámetros modificando el diccionario `params` dentro del script `train_convnet.py`.
+
+### ResNet18 Preentrenado
+
+El modelo ResNet18 utiliza los pesos preentrenados de ImageNet y ajusta su capa fully connected para adaptarse a 6 clases. Los hiperparámetros son similares a los del modelo ConvNet y pueden configurarse en el script `train_resnet18.py`.
 
 ---
 
 ## Visualización de Resultados
 
-El script genera:
+Ambos modelos generan:
 
 1. Métricas de rendimiento por época:
-   - Pérdida de entrenamiento y validación
-   - Precisión y F1-Score
+   - Pérdida de entrenamiento y validación.
+   - Precisión y F1-Score.
 
 2. Matriz de confusión para interpretar los resultados del conjunto de prueba.
