@@ -3,7 +3,7 @@
 Este repositorio contiene implementaciones de dos modelos para la clasificación de imágenes de infraestructura (decks, pavements y walls) en dos categorías: cracked (con fisuras) y non-cracked (sin fisuras). Los modelos incluidos son:
 
 1. **Red Neuronal Convolucional Personalizada (ConvNet)**.
-2. **Modelo Preentrenado ResNet18 para Transfer Learning**.
+2. **Modelo Preentrenado EfficientNet-B0 para Transfer Learning**.
 
 El objetivo principal es identificar el estado de diferentes superficies para aplicaciones de mantenimiento y evaluación estructural.
 
@@ -17,7 +17,7 @@ El proyecto tiene la siguiente estructura:
 archive/                 # Directorio con las carpetas de datos (imágenes organizadas por clase)
 scripts/
   train_convnet.py      # Script para entrenar el modelo ConvNet personalizado
-  train_resnet18.py     # Script para entrenar el modelo ResNet18 preentrenado
+  train_efficientnet.py # Script para entrenar el modelo EfficientNet-B0 preentrenado
   test.py               # Script para evaluar ambos modelos en el conjunto de prueba
 models/                 # Carpeta para guardar los pesos de los modelos
 README.md               # Documentación del proyecto
@@ -52,8 +52,8 @@ Cada carpeta contiene las imágenes correspondientes a su clase.
 ### ConvNet Personalizado
 
 Este modelo implementa una arquitectura convolucional personalizada con las siguientes características:
-- Dos capas convolucionales con batch normalization y max pooling.
-- Una capa fully connected con dropout para evitar sobreajuste.
+- Dos capas convolucionales con Batch Normalization y Max Pooling.
+- Una capa fully connected con Dropout para evitar sobreajuste.
 
 #### Comando para entrenar:
 
@@ -63,17 +63,17 @@ python scripts/train_convnet.py
 
 Los pesos del mejor modelo se guardan en `models/best_model_convnet.pth`.
 
-### ResNet18 Preentrenado
+### EfficientNet-B0 Preentrenado
 
-Se utiliza ResNet18 preentrenado en ImageNet y se ajusta la capa fully connected para clasificar las 6 clases del dataset.
+Se utiliza EfficientNet-B0 preentrenado en ImageNet y se ajusta la capa classifier para clasificar las 6 clases del dataset. Además, las capas convolucionales iniciales se congelan para aprovechar los pesos preentrenados.
 
 #### Comando para entrenar:
 
 ```bash
-python scripts/train_resnet18.py
+python scripts/train_efficientnet.py
 ```
 
-Los pesos del mejor modelo se guardan en `models/best_model_resnet18.pth`.
+Los pesos del mejor modelo se guardan en `models/best_model_efficientnet.pth`.
 
 ---
 
@@ -108,9 +108,16 @@ El modelo es una red convolucional definida en PyTorch con los siguientes hiperp
 
 Puedes ajustar los hiperparámetros modificando el diccionario `params` dentro del script `train_convnet.py`.
 
-### ResNet18 Preentrenado
+### EfficientNet-B0 Preentrenado
 
-El modelo ResNet18 utiliza los pesos preentrenados de ImageNet y ajusta su capa fully connected para adaptarse a 6 clases. Los hiperparámetros son similares a los del modelo ConvNet y pueden configurarse en el script `train_resnet18.py`.
+El modelo EfficientNet-B0 utiliza los pesos preentrenados de ImageNet y ajusta su capa classifier para adaptarse a las 6 clases. Los hiperparámetros son:
+
+- **Tasa de aprendizaje**: 0.001.
+- **Peso de regularización**: 0.0001.
+- **Batch size**: 64.
+- **Número de épocas**: 10.
+
+Estos parámetros pueden configurarse en el script `train_efficientnet.py`.
 
 ---
 
